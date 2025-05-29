@@ -1,3 +1,25 @@
+variable "aws_country" {
+  description = "The country code for the ECR repository"
+  type        = string
+  default     = "EU"
+}
+variable "aws_environment" {
+  description = "The environment for the ECR repository"
+  type        = string
+  default     = "dev"  
+}
+variable "aws_region" {
+  description = "The AWS region for the ECR repository"
+  type        = string
+  default     = "us-east-1"
+}
+variable "ecr_name" {
+  description = "The name of the ECR repository"
+  type        = string
+  default     = "vlt-subscription-microservice-ecr"
+}
+
+
 variable "ecr_repo_name" {
   description = "The name of the ECR repository"
   type        = string
@@ -24,9 +46,4 @@ variable "tags" {
   default     = {
     Name = "my-repository"
   }
-}
-variable "environment" {
-  description = "The environment for the ECR repository"
-  type        = string
-  default     = "dev"  
 }

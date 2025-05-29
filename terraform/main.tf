@@ -15,7 +15,10 @@ provider "aws" {
 # step 1 create a repository
 module "ecr" {
   source = "./modules/ecr"
-  ecr_repo_name = var.environment == "dev" ? "${var.environment}-${var.ecr_repo_name}" : var.environment == "stg" ? "${var.environment}-${var.ecr_repo_name}" : var.environment == "prod" ? "prod-${var.ecr_repo_name}" : var.ecr_repo_name
+  #ecr_repo_name = var.environment == "dev" ? "${var.environment}-${var.ecr_repo_name}" : var.environment == "stg" ? "${var.environment}-${var.ecr_repo_name}" : var.environment == "prod" ? "prod-${var.ecr_repo_name}" : var.ecr_repo_name
+  ecr_repo_name = "${var.aws_country}-${var.aws_environment}-${var.ecr_name}"
+  image_tag_mutability = var.image_tag_mutability
+  scan_on_push = var.scan_on_push
   tags = var.tags 
 }
 
@@ -28,7 +31,7 @@ resource "aws_ecs_cluster" "cluster" {
   }
 }
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "${var.environment}-ecs-task-execution-role"
+  name = "${var.aws_environment}-ecs-task-execution-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -43,7 +46,7 @@ resource "aws_iam_role" "ecs_task_execution_role" {
 }
 
 resource "aws_iam_policy" "ecs_task_execution_policy" {
-  name        = "${var.environment}-ecs-execution-policy"
+  name        = "${var.aws_environment}-ecs-execution-policy"
   description = "Policy for ECS to pull images and push logs"
 
   policy = jsonencode({
@@ -87,7 +90,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_attach" {
 }
 
 resource "aws_iam_role" "ecs_task_role" {
-  name = "${var.environment}-ecs-task-role"
+  name = "${var.aws_environment}-ecs-task-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -102,7 +105,7 @@ resource "aws_iam_role" "ecs_task_role" {
 }
 
 resource "aws_iam_policy" "ecs_task_policy" {
-  name        = "${var.environment}-ecs-task-policy"
+  name        = "${var.aws_environment}-ecs-task-policy"
   description = "Policy for ECS containers to access AWS services"
 
   policy = jsonencode({
@@ -122,10 +125,10 @@ resource "aws_iam_policy" "ecs_task_policy" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "ecs_task_policy_attach" {
-  role       = aws_iam_role.ecs_task_role.name
-  policy_arn = aws_iam_policy.ecs_task_policy.arn
-}
+# resource "aws_iam_role_policy_attachment" "ecs_task_policy_attach" {
+#   role       = aws_iam_role.ecs_task_role.name
+#   policy_arn = aws_iam_policy.ecs_task_policy.arn
+# }
 
 resource "aws_ecs_task_definition" "task_defination" {
   family                   = "Ravi-my-task"
@@ -172,3 +175,18 @@ resource "aws_ecs_task_definition" "task_defination" {
 
 
 }
+
+# resource "aws_lb" "Network_lb" {
+#   name               = "${var.environment}-network-lb"
+#   internal           = false
+#   load_balancer_type = "network"
+#   security_groups    = [aws_security_group.ecs_sg.id]
+#   subnets            = var.subnets
+
+#   enable_deletion_protection = false
+
+#   tags = {
+#     Name = "${var.environment}-network-lb"
+#   }
+  
+# }
