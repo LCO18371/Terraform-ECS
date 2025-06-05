@@ -10,59 +10,59 @@ variable "environment" {
   default     = "usdev-usw2"
 }
 
-# variable "vpc_cidr" {
-#   description = "CIDR block for the VPC"
-#   type        = string
-#   default     = "10.0.0.0/16"
-# }
+variable "vpc_cidr" {
+  description = "CIDR block for the VPC"
+  type        = string
+  default     = "10.0.0.0/16"
+}
 
-# variable "public_subnet_cidrs" {
-#   description = "CIDR blocks for public subnets"
-#   type        = list(string)
-#   default     = ["10.0.1.0/24", "10.0.2.0/24"]
-# }
+variable "public_subnet_cidrs" {
+  description = "CIDR blocks for public subnets"
+  type        = list(string)
+  default     = ["10.0.1.0/24", "10.0.2.0/24"]
+}
 
-# variable "private_subnet_cidrs" {
-#   description = "CIDR blocks for private subnets"
-#   type        = list(string)
-#   default     = ["10.0.3.0/24", "10.0.4.0/24"]
-# }
+variable "private_subnet_cidrs" {
+  description = "CIDR blocks for private subnets"
+  type        = list(string)
+  default     = ["10.0.3.0/24", "10.0.4.0/24"]
+}
 
-# variable "container_port" {
-#   description = "Port the container listens on"
-#   type        = number
-#   default     = 80
-# }
+variable "container_port" {
+  description = "Port the container listens on"
+  type        = number
+  default     = 80
+}
 
-# variable "container_cpu" {
-#   description = "CPU units for the container (1024 = 1 vCPU)"
-#   type        = number
-#   default     = 256
-# }
+variable "container_cpu" {
+  description = "CPU units for the container (1024 = 1 vCPU)"
+  type        = number
+  default     = 256
+}
 
-# variable "container_memory" {
-#   description = "Memory for the container in MB"
-#   type        = number
-#   default     = 512
-# }
+variable "container_memory" {
+  description = "Memory for the container in MB"
+  type        = number
+  default     = 512
+}
 
-# variable "desired_count" {
-#   description = "Number of instances of the task to run"
-#   type        = number
-#   default     = 1
-# }
+variable "desired_count" {
+  description = "Number of instances of the task to run"
+  type        = number
+  default     = 1
+}
 
-# variable "alert_emails" {
-#   description = "List of email addresses to receive alerts"
-#   type        = list(string)
-#   default     = []
-# }
+variable "alert_emails" {
+  description = "List of email addresses to receive alerts"
+  type        = list(string)
+  default     = []
+}
 
 # # Common tags
 variable "tags" {
   description = "Common tags for all resources"
   type        = map(string)
-  default     = {
+  default = {
     "ohi:project"     = "vlt"
     "ohi:application" = "vlt-subscription"
     "ohi:module"      = "vlt-subscription-be"

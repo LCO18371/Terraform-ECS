@@ -34,19 +34,6 @@ resource "aws_ecr_lifecycle_policy" "rules" {
         action = {
           type = "expire"
         }
-      },
-      {
-        rulePriority = 2,
-        description  = "Keep tagged images for 30 days",
-        selection = {
-          tagStatus     = "tagged",
-          countType     = "sinceImagePushed",
-          countUnit     = "days",
-          countNumber   = 30
-        },
-        action = {
-          type = "expire"
-        }
       }
     ]
   })
